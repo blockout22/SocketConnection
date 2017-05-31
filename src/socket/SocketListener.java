@@ -13,6 +13,9 @@ public interface SocketListener {
 	//called when a packet have been recieved
 	public void onRecieve(DatagramPacket packet);
 	
+	//called when a packet has been sent
+	public void onSend(DatagramPacket packet);
+	
 	//called when a request to stop the Socket has been called
 	public void onStopping();
 	

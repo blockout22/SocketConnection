@@ -1,4 +1,4 @@
-package socket.side.server;
+package socket.side.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -8,16 +8,16 @@ import java.net.SocketException;
 
 import socket.SocketListener;
 
-public class UDPServerSocket {
+public class UDPClientSocket {
 	
-	private ServerArguments args;
+	private ClientArguments args;
 	private SocketListener listener;
 	private DatagramSocket socket;
 	private boolean running = false;
 	
-	public UDPServerSocket(ServerArguments serverArgs, SocketListener listener) throws SocketException{
-		socket = new DatagramSocket(args.getPort());
-		this.args = serverArgs;
+	public UDPClientSocket(ClientArguments clientArgs, SocketListener listener) throws SocketException{
+		socket = new DatagramSocket();
+		this.args = clientArgs;
 		this.listener = listener;
 		running = true;
 		
@@ -27,9 +27,9 @@ public class UDPServerSocket {
 	public void start() throws IOException
 	{
 		listener.onStart();
+		
 		while(running){
 			byte[] buffer = new byte[args.getBufferSize()];
-			
 			DatagramPacket dataPacket = new DatagramPacket(buffer, buffer.length);
 			
 			socket.receive(dataPacket);
@@ -41,8 +41,8 @@ public class UDPServerSocket {
 		listener.onStop();
 	}
 	
-	public void send(byte[] data, InetAddress ip, int port) throws IOException{
-		DatagramPacket packet = new DatagramPacket(data, data.length, ip, port);
+	public void send(byte[] data) throws IOException{
+		DatagramPacket packet = new DatagramPacket(data, data.length, args.getIp(), args.getPort());
 		socket.send(packet);
 		listener.onSend(packet);
 	}
