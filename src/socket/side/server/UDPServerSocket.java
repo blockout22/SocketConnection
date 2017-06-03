@@ -16,8 +16,8 @@ public class UDPServerSocket {
 	private boolean running = false;
 	
 	public UDPServerSocket(ServerArguments serverArgs, SocketListener listener) throws SocketException{
-		socket = new DatagramSocket(args.getPort());
 		this.args = serverArgs;
+		socket = new DatagramSocket(args.getPort());
 		this.listener = listener;
 		running = true;
 		
