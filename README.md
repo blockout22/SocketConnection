@@ -1,4 +1,5 @@
-# SocketConnection
+# SocketConnection [![Build Status](https://travis-ci.org/blockout22/SocketConnection.svg?branch=master)](https://travis-ci.org/blockout22/SocketConnection)
+# SocketConnection 
 
 simple Socket setup to start communicating with sockets
 
