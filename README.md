@@ -9,4 +9,9 @@ simple Socket setup to start communicating with sockets
   SocketListener listener = new SocketListener(){};
   
   UDPServerSocket socket = new UDPServerSocket(serverArgs, listener);
+  socket.start(); // listeners for packets and loops forever until stop() is called
+  
+  ...
+  
+  socket.stop();
 ```
