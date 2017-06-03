@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import socket.SocketListener;
+import socket.UDP.SocketListener;
 
 public class UDPClientSocket {
 	
