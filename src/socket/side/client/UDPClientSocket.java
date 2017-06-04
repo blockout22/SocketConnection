@@ -14,9 +14,11 @@ public class UDPClientSocket {
 	private SocketListener listener;
 	private DatagramSocket socket;
 	private boolean running = false;
+	private int localPort = -1;
 	
 	public UDPClientSocket(ClientArguments clientArgs, SocketListener listener) throws SocketException{
 		socket = new DatagramSocket();
+		localPort = socket.getLocalPort();
 		this.args = clientArgs;
 		this.listener = listener;
 		running = true;
@@ -52,7 +54,7 @@ public class UDPClientSocket {
 		listener.onStopping();
 		running = false;
 		byte[] buffer = "".getBytes();
-		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(""), args.getPort());
+		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(""), localPort);
 		socket.send(packet);
 	}
 
