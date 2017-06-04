@@ -5,10 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
+import java.util.UUID;
 
 import socket.UDP.SocketListener;
 
 public class UDPServerSocket {
+	
+	//used to end the while loop without triggering onRecieve();
+	private UUID closePacket;
 	
 	private ServerArguments args;
 	private SocketListener listener;
@@ -22,6 +27,8 @@ public class UDPServerSocket {
 		running = true;
 		
 		listener.onCreate();
+		
+		closePacket = UUID.randomUUID();
 	}
 	
 	public void start() throws IOException
@@ -33,6 +40,10 @@ public class UDPServerSocket {
 			DatagramPacket dataPacket = new DatagramPacket(buffer, buffer.length);
 			
 			socket.receive(dataPacket);
+			
+			if(new String(dataPacket.getData()).trim().equals(closePacket.toString())){
+				break;
+			}
 			
 			listener.onRecieve(dataPacket);
 		}
@@ -51,7 +62,7 @@ public class UDPServerSocket {
 	{
 		listener.onStopping();
 		running = false;
-		byte[] buffer = "".getBytes();
+		byte[] buffer = closePacket.toString().getBytes();
 		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(""), args.getPort());
 		socket.send(packet);
 	}
